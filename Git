@@ -1,1 +1,24 @@
+---
+# Installeer OpenVPN
+- name: Install OpenVPN
+  apt:
+    name: openvpn
+    state: present
+  become: yes
+
+# Configureer de OpenVPN-server
+- name: Copy OpenVPN server configuration
+  template:
+    src: server.conf.j2
+    dest: /etc/openvpn/server.conf
+    owner: root
+    group: root
+    mode: '0644'
+
+# Start en schakel de OpenVPN-service in
+- name: Ensure OpenVPN service is started and enabled
+  systemd:
+    name: openvpn
+    state: started
+    enabled: true
 
